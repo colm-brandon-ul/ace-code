@@ -1,0 +1,10 @@
+.venv
+parameters/*
+*.tiff
+*.pyc
+*.png
+data/*
+results/*
+spreadsheets/*
+*.zip
+*.ipynb
