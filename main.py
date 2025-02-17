@@ -25,7 +25,7 @@ def main(args):
         if args.remote_data:
             # check if the data exists
             if not os.path.exists(Path(this_dir) / 'data'):
-                train.get_data(args.remote_data)
+                train.get_remote_data(args.remote_data)
 
 
         train.train_model(
