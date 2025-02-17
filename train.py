@@ -161,7 +161,7 @@ def get_all_combinations(lst):
             result.append((m, n))
     return result
 
-def _fit_model(X_train, y_train, X_test, y_test,cv=5):
+def _fit_model(X_train, y_train, X_test, y_test,cv=5,n_jobs=-1):
     cnames = []
     cbestparams = []
     ctrain_scores = []
@@ -172,7 +172,7 @@ def _fit_model(X_train, y_train, X_test, y_test,cv=5):
         final_clf = GridSearchCV(
             MultiOutputRegressor(clf()),
             cv=5,param_grid=HPS[clf_name],
-            n_jobs=1,
+            n_jobs=n_jobs,
             verbose=3).fit(X_train,y_train)
 
 
@@ -184,7 +184,7 @@ def _fit_model(X_train, y_train, X_test, y_test,cv=5):
     return cnames, cbestparams, ctrain_scores, ctest_scores
 
 
-def _train_model(sampling_strategy, results_dir, test_size=0.2):
+def _train_model(sampling_strategy, results_dir, test_size=0.2, n_jobs=-1):
     # 
 
     if sampling_strategy == '1vN':
@@ -197,7 +197,7 @@ def _train_model(sampling_strategy, results_dir, test_size=0.2):
                                                         train_proteins=p
                                                     )
             
-            cnames, cbestparams, ctrain_scores, ctest_scores = _fit_model(X_train, y_train, X_test, y_test)
+            cnames, cbestparams, ctrain_scores, ctest_scores = _fit_model(X_train, y_train, X_test, y_test, n_jobs=n_jobs)
             _cnames.extend(cnames)
             _cbestparams.extend(cbestparams)
             _ctrain_scores.extend(ctrain_scores)
@@ -234,7 +234,8 @@ def _train_model(sampling_strategy, results_dir, test_size=0.2):
                 X_train, 
                 y_train, 
                 X_test, 
-                y_test)
+                y_test,
+                n_jobs=n_jobs)
             
             _cnames.extend(cnames)
             _cbestparams.extend(cbestparams)
@@ -265,7 +266,8 @@ def _train_model(sampling_strategy, results_dir, test_size=0.2):
             X_train, 
             y_train,
             X_test, 
-            y_test)
+            y_test,
+            n_jobs=n_jobs)
         
         pd.DataFrame({
             'SamplingStrategy' : [sampling_strategy]*len(cnames),
@@ -276,13 +278,13 @@ def _train_model(sampling_strategy, results_dir, test_size=0.2):
         }).to_csv(results_dir + f'/{sampling_strategy}_results.csv', index=False)
         
 
-def train_model(sampling_strategy, test_size=0.2, results_dir='results'):
+def train_model(sampling_strategy, test_size=0.2, results_dir='results', n_jobs=-1):
     if sampling_strategy == 'all':
             for strat in SamplingScheme.__args__:
-                _train_model(strat,results_dir, test_size=test_size)
+                _train_model(strat,results_dir, test_size=test_size, n_jobs=n_jobs)
 
     else:
-        _train_model(sampling_strategy,results_dir, test_size=test_size)
+        _train_model(sampling_strategy,results_dir, test_size=test_size, n_jobs=n_jobs)
 
 
     

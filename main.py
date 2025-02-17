@@ -72,6 +72,7 @@ if __name__ == "__main__":
     parser.add_argument('--sampling_strategy', type=str, default="rand", required=False)
     parser.add_argument('--test_size', type=float, default=0.2, required=False)
     parser.add_argument('--results_dir', type=str, default='results', required=False)
+    parser.add_argument('--n_jobs', type=int, default=-1, required=False)
 
     # inference only
     parser.add_argument("--remote_model", 
