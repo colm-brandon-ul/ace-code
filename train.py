@@ -93,7 +93,7 @@ def load_and_partition_data(
         strategy: SamplingScheme = 'rand' , 
         random_state=42):
     
-    if isinstance(df, str):
+    if isinstance(df, str) or isinstance(df, Path):
         df = pd.read_csv(df)
     
     df = df

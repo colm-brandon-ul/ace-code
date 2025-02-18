@@ -63,12 +63,11 @@ def main(args):
             args.output_dir + f'/ace_{tmin}_{tmax}_{img_name}.{img_ext}' if args.output_dir else f'ace_{tmin}_{tmax}_{img_name}.{img_ext}'
         )
 
-    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Main script")
     parser.add_argument("--train", type=bool, default=False, help="Train the model")
-    parser.add_argument('--remote_data', type=str, default='"https://drive.google.com/uc?export=download&id=1e_k00AwJmyrEfYVFYS2NODWxAdjEZJ1q"', required=False)
+    parser.add_argument('--remote_data', type=str, default="https://drive.google.com/uc?export=download&id=1e_k00AwJmyrEfYVFYS2NODWxAdjEZJ1q", required=False)
     parser.add_argument('--sampling_strategy', type=str, default="rand", required=False)
     parser.add_argument('--test_size', type=float, default=0.2, required=False)
     parser.add_argument('--results_dir', type=str, default='results', required=False)
